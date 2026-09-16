@@ -1,0 +1,25 @@
+Windows 网络设置导出工具
+
+使用方法
+1. 将工具文件夹放在自己有写入权限的位置。
+2. 双击 Export-NetworkSettings.cmd。
+3. 导出结果保存在工具旁边的 Backups 文件夹，每次创建一个带时间戳的新文件夹。
+4. 查看 collection-status.json：CollectionComplete 为 true 表示所有采集步骤成功；false 表示部分步骤失败，具体原因列在 Issues 中。
+
+建议在关闭代理软件、国内网页能正常打开的时候运行，作为正常网络基准。故障时也可以再运行一次，供对比。
+
+保存内容
+系统当前用户的代理设置和 Internet Settings 注册表备份、WinHTTP 代理、网卡名称和 GUID、IP 获取方式、当前 IP 地址、DNS 地址及相关注册表配置、活动和持久路由、hosts 文件，以及 ipconfig/netsh 的诊断输出。
+
+权限与范围
+通常直接双击即可。如果报告访问被拒绝，可右键 CMD 文件选择“以管理员身份运行”后重试；应使用当前登录用户提升权限，换成其他管理员账号会导出该账号的用户代理设置。
+程序仅读取配置并写入备份文件，不修改代理、DNS、网卡、路由或执行网络重置；无需安装 Python，无需联网。
+启动器中的 ExecutionPolicy Bypass 仅作用于此次 PowerShell 进程，不修改系统的持久执行策略；受组织策略限制时仍可能无法运行。
+
+恢复范围
+本版仅导出，不提供一键恢复。DHCP 分配的 IP、活动路由和虚拟网卡可能是临时状态，不能直接固定恢复。
+InternetSettings.reg 包含代理以外的 Internet Settings；请不要直接双击导入，也不要直接执行 netsh dump 文件。
+未备份浏览器扩展及浏览器独立 DNS 设置、Clash/CC Switch 的订阅与应用配置、Wi-Fi 密码或 VPN 凭据，因此不是完整系统网络镜像。
+
+隐私
+备份可能包含用户名、IP、MAC 地址、内网域名及带访问令牌的代理/PAC 地址。请保留在自己电脑上，对外分享前检查并脱敏。
